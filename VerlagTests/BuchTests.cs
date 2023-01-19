@@ -93,16 +93,41 @@ namespace VerlagTests
 
 		// DataRow: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-mstest#add-more-features
 		[TestMethod]
-		[DataRow("")]
-		[DataRow("Lin#Ha")]
-		[DataRow(";Chias")]
-		[DataRow("qqq§asd")]
-		[DataRow("XXD%OK#;ss")]
+		[DataRow("#")]
+		[DataRow(";")]
+		[DataRow(":")]
+		[DataRow("/")]
+		[DataRow("(")]
+		[DataRow(")")]
+		[DataRow("?")]
+		[DataRow("!")]
+		[DataRow("§")]
+		[DataRow("&")]
+		[DataRow("=")]
+		[DataRow(":")]
+		[DataRow("´")]
+		[DataRow("`")]
+		[DataRow("<")]
+		[DataRow(">")]
+		[DataRow("|")]
+		[DataRow("µ")]
+		[DataRow("{")]
+		[DataRow("}")]
+		[DataRow("[")]
+		[DataRow("]")]
+		[DataRow("^")]
+		[DataRow("°")]
+		[DataRow("+")]
+		[DataRow("*")]
+		[DataRow("$")]
 		[ExpectedException(typeof(ArgumentException))]
 		public void Autor_NurSinnvolleEingabenErlaubt(string unerlaubtesZeichen)
 		{
+
+			//Arrange
+			string autorName = "Linhao" + unerlaubtesZeichen;
 			//Act
-			Buch b = new Buch(unerlaubtesZeichen, "titel");
+			Buch b = new Buch(autorName, "titel");
 		}
 
         [TestMethod]
@@ -112,5 +137,15 @@ namespace VerlagTests
 			//act
 			Buch b = new Buch(null, "titel");
         }
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
+		public void Autor_LeereEingabenistNichtSinnvoll()
+		{
+			//act
+			Buch b = new Buch("", "titel");
+		}
+
+
 	}
 }

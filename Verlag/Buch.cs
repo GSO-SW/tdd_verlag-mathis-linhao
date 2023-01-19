@@ -12,16 +12,23 @@ namespace Verlag
         private string title;
         private int auflage;
 
-
+        string[] sonderzeichen = new string[] { "#", ";", ":", "/", "(", ")", "?", "!", "§", "&", "=", ":", "`", "´", "<", ">", "|", "µ", "{", "[", "]", "}", "^", "°", "+","*","$" };
         public Buch(string autor, string title) 
         {
             if (autor == null)
             {
                 throw new ArgumentNullException("Der Name des Autor darf nicht null sein");
                 
-            }else if (autor == "" || autor.Contains('#') || autor.Contains(';') || autor.Contains('§') || autor.Contains('%'))
+            }else if (autor == "" )
             {
-                throw new ArgumentException("Der Name des Autor darf nicht leer sein oder mit nicht sinnvolleZeichen enthalten");
+                throw new ArgumentException("Der Name des Autor darf nicht leer sein ");
+            }
+            foreach(string s in sonderzeichen)
+            {
+                if (autor.Contains(s))
+                {
+                    throw new ArgumentException("Der Name des Autor darf nicht mit nicht sinnvolleZeichen enthalten");
+                }
             }
             this.autor = autor;
             this.title = title;
