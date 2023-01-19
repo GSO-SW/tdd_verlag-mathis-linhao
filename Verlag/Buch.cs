@@ -15,7 +15,11 @@ namespace Verlag
 
         public Buch(string autor, string title) 
         {
-            if (autor == "" || autor == null || autor.Contains('#') || autor.Contains(';') || autor.Contains('§') || autor.Contains('%') )
+            if (autor == null)
+            {
+                throw new ArgumentNullException("Der Name des Autor darf nicht null sein");
+                
+            }else if (autor == "" || autor.Contains('#') || autor.Contains(';') || autor.Contains('§') || autor.Contains('%'))
             {
                 throw new ArgumentException("Der Name des Autor darf nicht leer sein oder mit nicht sinnvolleZeichen enthalten");
             }

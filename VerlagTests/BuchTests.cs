@@ -94,16 +94,23 @@ namespace VerlagTests
 		// DataRow: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-mstest#add-more-features
 		[TestMethod]
 		[DataRow("")]
-		[DataRow("#")]
-		[DataRow(";")]
-		[DataRow("§")]
-		[DataRow("%")]
-		[DataRow(null)]
+		[DataRow("Lin#Ha")]
+		[DataRow(";Chias")]
+		[DataRow("qqq§asd")]
+		[DataRow("XXD%OK#;ss")]
 		[ExpectedException(typeof(ArgumentException))]
 		public void Autor_NurSinnvolleEingabenErlaubt(string unerlaubtesZeichen)
 		{
 			//Act
 			Buch b = new Buch(unerlaubtesZeichen, "titel");
 		}
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+		public void Autor_EingabenNullistNichtSinnvoll()
+        {
+			//act
+			Buch b = new Buch(null, "titel");
+        }
 	}
 }
