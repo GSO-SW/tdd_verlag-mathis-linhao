@@ -146,6 +146,24 @@ namespace VerlagTests
 			Buch b = new Buch("", "titel");
 		}
 
+        [TestMethod]
+		public void Buch_HatISBN()
+        {
+			//arrange
+			string autor = "J.K. Rowling";
+			string titel = "Harry Potter und der Gefangene von Askaban";
+			int auflage = 1;
+			string isbn =
+
+
+			//act
+
+
+
+			//assert
+			Assert.AreEqual("978-3770436163", b.ISBN);
+
+		}
 
 	}
 }

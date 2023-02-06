@@ -11,6 +11,7 @@ namespace Verlag
         private string autor;
         private string title;
         private int auflage;
+        private string isbn13;
 
         string[] sonderzeichen = new string[] { "#", ";", ":", "/", "(", ")", "?", "!", "§", "&", "=", ":", "`", "´", "<", ">", "|", "µ", "{", "[", "]", "}", "^", "°", "+","*","$" };
         public Buch(string autor, string title) 
@@ -36,14 +37,16 @@ namespace Verlag
         }
         public Buch(string autor, string title, int auflage) : this(autor, title)
         {
-            this.autor = autor;
-            this.title = title;
             if (auflage <= 0)
             {
                 
                 throw new ArgumentOutOfRangeException("Auflag darf nicht weniger als 1 sein");
             }
             this.auflage = auflage;
+        }
+        public Buch(string autor, string title, int auflage, string isbn13) : this(autor, title, auflage)
+        {
+            this.isbn13 = isbn13;
         }
 
         public string Autor
@@ -75,5 +78,77 @@ namespace Verlag
             }
             get { return this.auflage; }
         }
+
+
+        public string ISBN13
+        {
+            get { return isbn13; }
+
+            set
+            {
+                if(value.Length == 14)
+                {
+                    isbn13 = value;
+                }else if(value.Length == 13)
+                {
+                    int[] zahlen = PruefzifferArray(value);
+
+                    bool gerade = false;
+                    for(int i = 0; i < zahlen.Length; i++)
+                    {
+                        if (gerade)
+                        {
+                            zahlen[i] *= 3;
+                        }
+
+                        gerade = !gerade;
+                    }
+
+                    int summe = zahlen.Sum();
+                    int pruefziffer = 10 - Math.Abs(summe % 10);
+                    isbn13 = value + pruefziffer;
+                }
+            }
+        }
+
+        public string ISBN10
+        {
+            get
+            {
+                int[] zahlen = PruefzifferArray(isbn13);
+                int zaehler = 1;
+                for (int i = 0; i < zahlen.Length; i++)
+                {
+                    zahlen[i] *= zaehler;
+
+                    zaehler++;
+                }
+                int summe = zahlen.Sum();
+                
+                int pruefziffer10 = summe % 11;
+                
+                if (pruefziffer10 == 10)
+                {
+                    return isbn13[4..^1] + 'X';
+                }
+                return isbn13[4..^1] + pruefziffer10;
+            }
+        }
+        private int[] PruefzifferArray(string isbn13)
+        {
+            List<int> pruefziffer = new List<int>();
+
+            foreach (var item in isbn13)
+            {
+                
+                if(item != '-')
+                {
+                    pruefziffer.Add(item);
+                }
+            }
+
+            return pruefziffer.ToArray();
+        }
+
     }
 }
